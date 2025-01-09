@@ -1,0 +1,41 @@
+[
+    {
+        "name": "High Error Rate",
+        "description": "Error rate exceeds threshold",
+        "condition": {
+            "metric": "error_rate",
+            "operator": ">",
+            "threshold": 0.1,
+            "duration": 5
+        },
+        "level": "warning",
+        "enabled": true,
+        "channels": ["webhook", "email"]
+    },
+    {
+        "name": "Slow Response Time",
+        "description": "Average response time too high",
+        "condition": {
+            "metric": "avg_response_time",
+            "operator": ">",
+            "threshold": 2.0,
+            "duration": 5
+        },
+        "level": "critical",
+        "enabled": true,
+        "channels": ["webhook", "email"]
+    },
+    {
+        "name": "High Request Rate",
+        "description": "Request rate exceeds threshold",
+        "condition": {
+            "metric": "request_rate",
+            "operator": ">",
+            "threshold": 100,
+            "duration": 1
+        },
+        "level": "info",
+        "enabled": true,
+        "channels": ["webhook"]
+    }
+] 
