@@ -1,0 +1,99 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/web_scanner?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.security.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 开启SQL日志
+
+resource:
+  download-path: download/
+  temp-path: temp/
+  max-retries: 3
+  download-timeout: 30000
+  max-concurrent: 5
+  
+  proxy:
+    enabled: false
+    host: 127.0.0.1
+    port: 7890
+    username: 
+    password: 
+    
+  filter:
+    allowed-domains:
+      - example.com
+      - test.com
+    allowed-extensions:
+      - .jpg
+      - .png
+      - .mp4
+      - .pdf
+    excluded-urls:
+      - /ads/
+      - /advertisement/
+    max-file-size: 104857600  # 100MB 
+  
+  download:
+    queue-size: 1000
+    thread-pool-size: 5
+    speed-limit: 1048576  # 1MB/s
+    enable-resume: true
+  
+  integrity:
+    enable-verification: true
+    algorithm: MD5
+    strict-mode: false 
+  
+  video:
+    encryption:
+      token-refresh-url: http://api.example.com/refresh-token
+      key-server-url: http://key.example.com
+      drm:
+        enabled: false
+        widevine:
+          license-url: http://license.example.com/widevine
+          client-id: your-client-id
+          private-key: your-private-key
+        playready:
+          license-url: http://license.example.com/playready
+          security-level: 3000
+      custom:
+        encryption-key: your-encryption-key
+        algorithm: AES-256-CBC
+      allowed-referers:
+        - example.com
+        - test.com 
+  
+  backup:
+    path: backup/ 
+
+selenium:
+  chromedriver:
+    path: D:/chromedriver/chromedriver.exe  # Windows路径示例
+    # path: /usr/local/bin/chromedriver     # Linux路径示例 
+  config:
+    timeout: 60  # 增加到60秒
+    retry-count: 3  # 添加重试机制
+    user-agents:  # 随机切换User-Agent
+      - "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+      - "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+    proxy:
+      enabled: true  # 启用代理
+      pool:  # 代理池
+        - "127.0.0.1:7890"
+        - "127.0.0.1:7891" 
