@@ -3,7 +3,6 @@ package com.security.service.impl;
 import com.security.service.IVulnScanService;
 import org.springframework.stereotype.Service;
 
-@Service
 public class IVulnScanServiceImpl implements IVulnScanService {
     @Override
     public Long createVulnScanTask(Long targetId) {

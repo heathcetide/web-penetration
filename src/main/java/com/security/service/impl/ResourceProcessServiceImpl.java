@@ -34,7 +34,6 @@ import com.security.service.video.VideoEncryptionDetector;
 import com.security.service.video.EncryptionInfo;
 import cn.hutool.json.JSONUtil;
 
-@Service
 public class ResourceProcessServiceImpl implements IResourceProcessService {
     
     @Autowired

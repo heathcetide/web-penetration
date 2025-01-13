@@ -44,7 +44,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import cn.hutool.core.util.RandomUtil;
 
-@Service
 public class WebCrawlerServiceImpl implements IWebCrawlerService {
     
     private static final Logger log = LoggerFactory.getLogger(WebCrawlerServiceImpl.class);

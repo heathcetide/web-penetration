@@ -3,7 +3,6 @@ package com.security.service.impl;
 import com.security.service.IAssetScanService;
 import org.springframework.stereotype.Service;
 
-@Service
 public class IAssetScanServiceImpl implements IAssetScanService {
     @Override
     public Long createAssetScanTask(String domain) {
