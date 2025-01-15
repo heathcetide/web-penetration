@@ -42,8 +42,7 @@ public class CrawlResult {
         return images;
     }
 
-    public void setImages(List<String> images) {
-        this.images = images;
+    public void setImages(List<String> images) {this.images = images;
     }
 
     public List<String> getVideos() {

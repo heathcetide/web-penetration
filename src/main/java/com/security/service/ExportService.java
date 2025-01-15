@@ -8,4 +8,4 @@ import com.security.model.entity.CrawlResult;
 public interface ExportService {
     String exportToJson(CrawlResult crawlResult);
     String exportToCsv(CrawlResult crawlResult);
-} 
+}
