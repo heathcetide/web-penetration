@@ -1,0 +1,17 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "web-penetration",
+  "outputfilename": "web-penetration",
+  "frontend": {
+    "dir": "./frontend"
+  },
+  "author": {
+    "name": "Web Penetration Team"
+  },
+  "info": {
+    "productName": "Web Penetration Tool",
+    "productVersion": "1.0.0",
+    "copyright": "2024",
+    "comments": "A professional web penetration testing tool"
+  }
+}

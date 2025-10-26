@@ -1,0 +1,55 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+web-pen
+web-penetration
+web-penetration.exe
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work
+
+# Wails build output
+build/
+wails.json.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Debug
+*.log
+
+# Environment
+.env
+.env.local
+
+# Frontend
+node_modules/
+frontend/dist/*.js
+frontend/dist/*.html
+frontend/wailsjs/
+
+# Backup files
+*.bak
+*.tmp
+

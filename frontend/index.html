@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Penetration Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Share Tech Mono', monospace;
+            background: #000;
+            color: #00ff00;
+            overflow: hidden;
+        }
+        .glow-green { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00; }
+        .glow-cyan { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff; }
+        .glow-yellow { text-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00; }
+        .glow-red { text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000; }
+        input, button {
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        input:focus, button:hover {
+            background: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+        .terminal {
+            background: #000;
+            border: 1px solid #00ff00;
+            box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        .cursor-blink::after {
+            content: '_';
+            animation: blink 1s infinite;
+        }
+        .hacker-border {
+            border-image: linear-gradient(45deg, #00ff00, #00ffff, #ffff00, #ff00ff) 1;
+            border-image-slice: 1;
+        }
+        .panel {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-black">
+    <div id="app">
+        <!-- Header -->
+        <header class="border-b-2 border-green-400 p-4 shadow-lg" style="border-image: linear-gradient(90deg, #000, #00ff00, #000) 1;">
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl font-bold glow-green">Web Penetration Tool v1.0</h1>
+                <div id="connection-status" class="text-lg">● Connected</div>
+            </div>
+        </header>
+
+        <!-- Main Container -->
+        <div class="flex h-screen">
+            <!-- Sidebar - Navigation -->
+            <aside class="w-64 panel p-4" style="background: rgba(0, 20, 0, 0.9);">
+                <nav class="space-y-2">
+                    <button class="w-full py-2 px-4 text-left hover:glow-cyan active-tab" data-tab="scan">
+                        <span class="glow-cyan">[1]</span> 端口扫描
+                    </button>
+                    <button class="w-full py-2 px-4 text-left hover:glow-cyan" data-tab="fuzz">
+                        <span class="glow-cyan">[2]</span> 模糊测试
+                    </button>
+                    <button class="w-full py-2 px-4 text-left hover:glow-cyan" data-tab="sqli">
+                        <span class="glow-cyan">[3]</span> SQL注入检测
+                    </button>
+                    <button class="w-full py-2 px-4 text-left hover:glow-cyan" data-tab="xss">
+                        <span class="glow-cyan">[4]</span> XSS检测
+                    </button>
+                    <button class="w-full py-2 px-4 text-left hover:glow-cyan" data-tab="brute">
+                        <span class="glow-cyan">[5]</span> 暴力破解
+                    </button>
+                    <button class="w-full py-2 px-4 text-left hover:glow-cyan" data-tab="filescan">
+                        <span class="glow-cyan">[6]</span> 文件扫描
+                    </button>
+                </nav>
+
+                <div class="mt-8 p-4" style="background: rgba(0, 255, 0, 0.05); border: 1px solid #00ff00;">
+                    <div class="text-xs text-green-300">
+                        <div class="mb-1 glow-yellow">⚠️ 警告</div>
+                        <div>仅用于合法的安全测试。未经授权的攻击是违法的。</div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-1 flex flex-col">
+                <!-- Tool Panel -->
+                <div class="panel p-4 m-4">
+                    <!-- Scan Tab -->
+                    <div id="tab-scan" class="tab-content">
+                        <h2 class="text-xl mb-4 glow-green">端口扫描</h2>
+                        <div class="space-y-3">
+                            <input id="scan-input" type="text" placeholder="输入目标主机 (例如: example.com)" 
+                                   class="w-full px-4 py-2 outline-none" autocomplete="off">
+                            <input type="text" id="scan-ports" placeholder="端口范围 (例如: 1-1000)" 
+                                   value="1-1000" class="w-full px-4 py-2 outline-none" autocomplete="off">
+                            <button id="scan-btn" class="w-full py-3 glow-green hover:glow-cyan transition-all">执行扫描</button>
+                        </div>
+                    </div>
+
+                    <!-- Fuzz Tab -->
+                    <div id="tab-fuzz" class="tab-content hidden">
+                        <h2 class="text-xl mb-4 glow-green">模糊测试</h2>
+                        <div class="space-y-3">
+                            <input id="fuzz-input" type="text" placeholder="输入目标URL (例如: https://example.com)" 
+                                   class="w-full px-4 py-2 outline-none" autocomplete="off">
+                            <input type="text" id="fuzz-wordlist" placeholder="字典文件路径" 
+                                   value="wordlist.txt" class="w-full px-4 py-2 outline-none" autocomplete="off">
+                            <button id="fuzz-btn" class="w-full py-3 glow-green hover:glow-cyan transition-all">开始模糊测试</button>
+                        </div>
+                    </div>
+
+                    <!-- SQLi Tab -->
+                    <div id="tab-sqli" class="tab-content hidden">
+                        <h2 class="text-xl mb-4 glow-green">SQL注入检测</h2>
+                        <div class="space-y-3">
+                            <input id="sqli-input" type="text" placeholder="输入目标URL (例如: https://example.com/page.php?id=1)" 
+                                   class="w-full px-4 py-2 outline-none" autocomplete="off">
+                            <input type="text" id="sqli-param" placeholder="参数名称" 
+                                   value="id" class="w-full px-4 py-2 outline-none" autocomplete="off">
+                            <button id="sqli-btn" class="w-full py-3 glow-green hover:glow-cyan transition-all">检测SQL注入</button>
+                        </div>
+                    </div>
+
+                    <!-- XSS Tab -->
+                    <div id="tab-xss" class="tab-content hidden">
+                        <h2 class="text-xl mb-4 glow-green">XSS漏洞检测</h2>
+                        <div class="space-y-3">
+                            <input id="xss-input" type="text" placeholder="输入目标URL" 
+                                   class="w-full px-4 py-2 outline-none" autocomplete="off">
+                            <input type="text" id="xss-param" placeholder="参数名称" 
+                                   value="search" class="w-full px-4 py-2 outline-none" autocomplete="off">
+                            <button id="xss-btn" class="w-full py-3 glow-green hover:glow-cyan transition-all">检测XSS漏洞</button>
+                        </div>
+                    </div>
+
+                    <!-- Brute Force Tab -->
+                    <div id="tab-brute" class="tab-content hidden">
+                        <h2 class="text-xl mb-4 glow-green">暴力破解</h2>
+                        <div class="space-y-3">
+                            <input id="brute-input" type="text" placeholder="输入目标URL" 
+                                   class="w-full px-4 py-2 outline-none" autocomplete="off">
+                            <input type="text" id="brute-username" placeholder="用户名" 
+                                   class="w-full px-4 py-2 outline-none" autocomplete="off">
+                            <input type="text" id="brute-wordlist" placeholder="密码字典" 
+                                   value="passwords.txt" class="w-full px-4 py-2 outline-none" autocomplete="off">
+                            <button id="brute-btn" class="w-full py-3 glow-green hover:glow-cyan transition-all">开始暴力破解</button>
+                        </div>
+                    </div>
+
+                    <!-- File Scan Tab -->
+                    <div id="tab-filescan" class="tab-content hidden">
+                        <h2 class="text-xl mb-4 glow-green">敏感文件扫描</h2>
+                        <div class="space-y-3">
+                            <input id="filescan-input" type="text" placeholder="输入目标URL (例如: https://example.com)" 
+                                   class="w-full px-4 py-2 outline-none" autocomplete="off">
+                            <button id="filescan-btn" class="w-full py-3 glow-green hover:glow-cyan transition-all">开始文件扫描</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Output Terminal -->
+                <div class="terminal flex-1 p-4 m-4 overflow-auto" id="output">
+                    <div class="text-green-400 text-sm">
+                        <div class="glow-cyan mb-2">╔════════════════════════════════════════════════════════════╗</div>
+                        <div class="glow-cyan mb-2">║  Web Penetration Tool v1.0 - Ready for Operations       ║</div>
+                        <div class="glow-cyan mb-4">╚════════════════════════════════════════════════════════════╝</div>
+                        <div class="mb-2 glow-yellow">[INFO] 系统初始化完成</div>
+                        <div class="mb-2 glow-yellow">[INFO] 所有模块已加载</div>
+                        <div class="mb-2 glow-green">[OK] 等待用户输入...</div>
+                        <div class="cursor-blink"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="./app.js"></script>
+</body>
+</html>
