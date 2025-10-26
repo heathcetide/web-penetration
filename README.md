@@ -1,175 +1,215 @@
-# 实现的接口列表
+# Web Penetration Testing Tool
 
-## 1. 学习活动服务接口
-- **接口路径**: `src/main/java/com/security/service/LearningActivityService.java`
-- **功能**: 管理学习活动的进度和状态。
-- **方法**:
-  - `void startLearningActivity(String activityId);` - 开始学习活动
-  - `void completeLearningActivity(String activityId);` - 完成学习活动
-  - `void updateLearningProgress(String activityId, int progress);` - 更新学习进度
-  - `String getLearningActivityStatus(String activityId);` - 获取学习活动状态
+一个专业的Web渗透测试工具集，包含多种常见的Web安全测试功能。
 
-## 2. 视频播放服务接口
-- **接口路径**: `src/main/java/com/security/service/VideoPlaybackService.java`
-- **功能**: 管理视频播放的进度和状态。
-- **方法**:
-  - `void startVideo(String videoId);` - 开始播放视频
-  - `void pauseVideo(String videoId);` - 暂停视频播放
-  - `void resumeVideo(String videoId);` - 恢复视频播放
-  - `void updateVideoProgress(String videoId, int progress);` - 更新视频播放进度
-  - `String getVideoPlaybackStatus(String videoId);` - 获取视频播放状态
+## 🖥️ 桌面版 (Wails)
 
-## 3. 学习平台服务接口
-- **接口路径**: `src/main/java/com/security/service/LearningPlatformService.java`
-- **功能**: 与不同学习平台进行交互。
-- **方法**:
-  - `void login(String username, String password);` - 登录学习平台
-  - `void logout();` - 登出学习平台
-  - `LearningActivityService getLearningActivityService();` - 获取学习活动服务
-  - `VideoPlaybackService getVideoPlaybackService();` - 获取视频播放服务
+本项目现在包含一个**黑客风格的桌面GUI版本**，使用Wails v2 + Tailwind CSS构建。
 
-## 4. 进度监控服务接口
-- **接口路径**: `src/main/java/com/security/service/ProgressMonitoringService.java`
-- **功能**: 监控学习和视频播放的进度。
-- **方法**:
-  - `void monitorLearningProgress(String activityId);` - 监控学习进度
-  - `void monitorVideoProgress(String videoId);` - 监控视频播放进度
-  - `void reportProgress(String activityId, int progress);` - 报告学习进度
-  - `void reportVideoProgress(String videoId, int progress);` - 报告视频播放进度
+### 快速启动桌面版
 
-## 5. 通用爬虫服务接口
-- **接口路径**: `src/main/java/com/security/service/GenericCrawlerService.java`
-- **功能**: 爬取学习平台的内容。
-- **方法**:
-  - `void crawlLearningContent(String url);` - 爬取学习内容
-  - `void crawlVideoContent(String url);` - 爬取视频内容
-  - `void updateProgress(String url, String contentType, int progress);` - 更新进度
+```bash
+# 开发模式（最简单，推荐）
+./dev.sh
 
-## 6. 认证和授权服务接口
-- **接口路径**: `src/main/java/com/security/service/AuthenticationService.java`
-- **功能**: 测试 Web 应用的身份验证和授权机制。
-- **方法**:
-  - `boolean testLogin(String url, String username, String password);` - 测试登录
-  - `boolean testPasswordReset(String url, String email);` - 测试密码重置
-  - `boolean testSessionManagement(String url);` - 测试会话管理
+# 或手动运行
+export PATH=$PATH:$(go env GOPATH)/bin
+wails dev
 
-## 7. 输入验证服务接口
-- **接口路径**: `src/main/java/com/security/service/InputValidationService.java`
-- **功能**: 测试 Web 应用对用户输入的验证。
-- **方法**:
-  - `boolean testInputValidation(String url, String payload);` - 测试输入验证
-  - `boolean testOutputEncoding(String url);` - 测试输出编码
+# 编译应用
+./build.sh
 
-## 8. SQL 注入检测服务接口
-- **接口路径**: `src/main/java/com/security/service/SqlInjectionService.java`
-- **功能**: 检测 Web 应用是否存在 SQL 注入漏洞。
-- **方法**:
-  - `boolean detectSqlInjection(String url, String payload);` - 检测 SQL 注入
-  - `boolean testForBlindSqlInjection(String url);` - 测试盲 SQL 注入
+# 运行编译后的应用
+./build/bin/web-penetration.app/Contents/MacOS/web-penetration
+```
 
-## 9. CSRF 检测服务接口
-- **接口路径**: `src/main/java/com/security/service/CsrfDetectionService.java`
-- **功能**: 检测 Web 应用是否存在跨站请求伪造漏洞。
-- **方法**:
-  - `boolean detectCsrf(String url);` - 检测 CSRF
-  - `boolean validateCsrfTokens(String url);` - 验证 CSRF 令牌
+**⚠️ 注意**: 不要使用 `go run app.go`！必须使用 `wails dev` 或 `./dev.sh`
 
-## 10. XSS 检测服务接口
-- **接口路径**: `src/main/java/com/security/service/XssDetectionService.java`
-- **功能**: 检测 Web 应用是否存在跨站脚本漏洞。
-- **方法**:
-  - `boolean detectXss(String url, String payload);` - 检测 XSS
-  - `boolean testForStoredXss(String url);` - 测试存储型 XSS
+详细使用说明请查看 [USAGE.md](./USAGE.md)
 
-## 11. 业务逻辑漏洞检测服务接口
-- **接口路径**: `src/main/java/com/security/service/BusinessLogicVulnerabilityService.java`
-- **功能**: 检测 Web 应用的业务逻辑漏洞。
-- **方法**:
-  - `boolean detectBusinessLogicVulnerability(String url);` - 检测业务逻辑漏洞
-  - `boolean validateBusinessProcesses(String url);` - 验证业务流程
+### 桌面版特性
+- 🎨 黑客风格UI（绿色主题+发光效果）
+- 📱 现代化响应式界面
+- ⌨️ 快捷键导航
+- 📊 实时终端输出
+- 🎯 图形化操作所有功能
 
-## 12. 事件管理服务接口
-- **接口路径**: `src/main/java/com/security/service/IncidentManagementService.java`
-- **功能**: 处理安全事件和响应。
-- **方法**:
-  - `void logIncident(String incidentDetails);` - 记录事件
-  - `void escalateIncident(String incidentId);` - 升级事件
-  - `void resolveIncident(String incidentId);` - 解决事件
+## 📦 CLI版本
 
-## 13. 组件和库漏洞扫描服务接口
-- **接口路径**: `src/main/java/com/security/service/ComponentVulnerabilityService.java`
-- **功能**: 检查 Web 应用使用的组件和库是否存在已知漏洞。
-- **方法**:
-  - `List<String> scanForComponentVulnerabilities(String url);` - 扫描组件漏洞
-  - `boolean checkForLicenseCompliance(String url);` - 检查许可证合规性
+同时保留命令行版本，可通过以下方式使用：
 
-## 14. 安全审计服务接口
-- **接口路径**: `src/main/java/com/security/service/SecurityAuditService.java`
-- **功能**: 对 Web 应用进行安全审计。
-- **方法**:
-  - `boolean performSecurityAudit(String url);` - 执行安全审计
-  - `String getAuditReport(String url);` - 获取审计报告
+```bash
+# 编译CLI版本
+go build -o web-pen cmd/*.go main.go
+```
 
-## 15. 安全意识培训服务接口
-- **接口路径**: `src/main/java/com/security/service/SecurityAwarenessTrainingService.java`
-- **功能**: 提供安全意识培训。
-- **方法**:
-  - `void conductTrainingSession(String sessionDetails);` - 进行培训课程
-  - `String getTrainingFeedback(String sessionId);` - 获取培训反馈
+## ⚠️ 免责声明
 
-## 16. 爬虫配置服务接口
-- **接口路径**: `src/main/java/com/security/service/CrawlerConfigurationService.java`
-- **功能**: 配置爬虫的参数和选项。
-- **方法**:
-  - `void setUserAgent(String userAgent);` - 设置用户代理
-  - `void setMaxDepth(int maxDepth);` - 设置最大爬取深度
-  - `void setTimeout(int timeout);` - 设置请求超时
-  - `void setMaxPages(int maxPages);` - 设置最大爬取页面数
+本工具仅用于合法的安全测试和教育目的。未经授权使用本工具进行任何攻击行为是违法的。使用者需自行承担使用本工具的所有法律责任。
 
-## 17. 爬虫调度服务接口
-- **接口路径**: `src/main/java/com/security/service/CrawlerSchedulerService.java`
-- **功能**: 调度和管理爬虫任务。
-- **方法**:
-  - `void scheduleCrawl(String url);` - 调度爬取任务
-  - `void cancelCrawl(String taskId);` - 取消爬取任务
-  - `void pauseCrawl(String taskId);` - 暂停爬取任务
-  - `void resumeCrawl(String taskId);` - 恢复爬取任务
+## 功能列表
 
-## 18. 爬虫结果处理服务接口
-- **接口路径**: `src/main/java/com/security/service/CrawlResultHandlerService.java`
-- **功能**: 处理爬取结果。
-- **方法**:
-  - `void saveCrawlResults(String url, String results);` - 保存爬取结果
-  - `void exportResultsToJson(String url);` - 导出结果为 JSON 格式
-  - `void exportResultsToCsv(String url);` - 导出结果为 CSV 格式
+### 1. 端口扫描 (scan)
+- 扫描指定主机的开放端口
+- 支持端口范围指定和自定义端口列表
+- 检测服务类型和版本信息
 
-## 19. 爬虫状态监控服务接口
-- **接口路径**: `src/main/java/com/security/service/CrawlerStatusService.java`
-- **功能**: 监控爬虫的运行状态。
-- **方法**:
-  - `String getCrawlStatus(String taskId);` - 获取爬取任务状态
-  - `int getTotalPagesCrawled(String taskId);` - 获取已爬取的总页面数
-  - `int getTotalErrors(String taskId);` - 获取爬取过程中发生的错误总数
+**用法示例:**
+```bash
+# 扫描默认端口范围 (1-1000)
+web-pen scan example.com
 
-## 20. 爬虫日志服务接口
-- **接口路径**: `src/main/java/com/security/service/CrawlerLogService.java`
-- **功能**: 记录和管理爬虫日志。
-- **方法**:
-  - `void logInfo(String message);` - 记录信息日志
-  - `void logError(String message);` - 记录错误日志
-  - `String getLog(String taskId);` - 获取特定任务的日志
+# 扫描指定端口范围
+web-pen scan example.com --ports=1-65535
 
-## 21. 爬虫策略服务接口
-- **接口路径**: `src/main/java/com/security/service/CrawlerStrategyService.java`
-- **功能**: 定义爬虫的爬取策略。
-- **方法**:
-  - `void setCrawlDelay(int delay);` - 设置爬取延迟
-  - `void setCrawlPolicy(String policy);` - 设置爬取策略（如深度优先、广度优先）
-  - `void setAllowedDomains(String[] domains);` - 设置允许爬取的域名
+# 扫描指定端口
+web-pen scan example.com --ports=80,443,8080,8443
+```
 
-## 22. 爬虫数据分析服务接口
-- **接口路径**: `src/main/java/com/security/service/CrawlDataAnalysisService.java`
-- **功能**: 分析爬取的数据。
-- **方法**:
-  - `void analyzeCrawlData(String url);` - 分析爬取的数据
-  - `String generateCrawlReport(String url);` - 生成爬取报告
+### 2. 模糊测试 (fuzz)
+- 检测隐藏文件和目录
+- 检测备份文件
+- 检测配置文件
+- 支持自定义字典
+
+**用法示例:**
+```bash
+# 使用默认字典
+web-pen fuzz https://example.com
+
+# 使用自定义字典
+web-pen fuzz https://example.com --wordlist=custom-wordlist.txt
+```
+
+### 3. 暴力破解 (brute)
+- HTTP基础认证暴力破解
+- 表单登录暴力破解
+- 自定义密码字典
+- 多线程支持
+
+**用法示例:**
+```bash
+# HTTP基础认证暴力破解
+web-pen brute https://example.com/admin --username=admin --password-list=passwords.txt
+
+# 自定义密码字典
+web-pen brute https://example.com/login --username=admin --password-list=top-passwords.txt
+```
+
+### 4. SQL注入检测 (sqli)
+- 自动检测SQL注入漏洞
+- 支持GET和POST参数测试
+- 多种注入类型检测 (Union, Boolean-based, Time-based)
+- Payload生成
+
+**用法示例:**
+```bash
+# 检测默认参数
+web-pen sqli https://example.com/page.php?id=1
+
+# 检测指定参数
+web-pen sqli https://example.com/page.php?id=1 --parameter=id
+
+# 检测POST参数
+web-pen sqli https://example.com/search.php --parameter=query
+```
+
+### 5. XSS漏洞检测 (xss)
+- 反射型XSS检测
+- 存储型XSS检测
+- DOM型XSS检测
+- 多种Payload测试
+
+**用法示例:**
+```bash
+# 使用默认参数
+web-pen xss https://example.com/search?q=test
+
+# 指定测试参数
+web-pen xss https://example.com/search?q=test --parameter=q
+
+# 测试多个参数
+web-pen xss https://example.com/comment --parameter=comment
+```
+
+### 6. 敏感文件扫描 (filescan)
+- 自动扫描常见敏感文件
+- 备份文件检测
+- 配置文件检测
+- .git/.svn等版本控制文件检测
+
+**用法示例:**
+```bash
+# 扫描目标
+web-pen filescan https://example.com
+```
+
+## 安装与使用
+
+### 安装依赖
+```bash
+go mod download
+```
+
+### 编译
+```bash
+go build -o web-pen
+```
+
+### 运行
+```bash
+# 查看帮助
+./web-pen --help
+
+# 查看所有子命令
+./web-pen
+
+# 使用具体功能
+./web-pen scan example.com
+```
+
+## 项目结构
+
+```
+web-penetration/
+├── cmd/                    # 命令行命令
+│   ├── root.go            # 根命令
+│   ├── scanner.go         # 端口扫描
+│   ├── fuzz.go            # 模糊测试
+│   ├── bruteforce.go      # 暴力破解
+│   ├── sqli.go            # SQL注入检测
+│   ├── xss.go             # XSS检测
+│   └── filescan.go        # 文件扫描
+├── internal/              # 内部功能模块
+│   ├── scanner/           # 端口扫描实现
+│   ├── fuzzer/            # 模糊测试实现
+│   ├── bruteforce/        # 暴力破解实现
+│   ├── sqli/              # SQL注入检测实现
+│   ├── xss/               # XSS检测实现
+│   └── filescan/          # 文件扫描实现
+├── main.go                # 程序入口
+├── go.mod                 # Go模块定义
+└── README.md              # 项目文档
+```
+
+## 开发计划
+
+- [x] 实现端口扫描功能（TCP连接扫描）✅
+- [ ] 实现模糊测试功能（目录和文件暴力破解）
+- [ ] 实现暴力破解功能（HTTP认证暴力破解）
+- [ ] 实现SQL注入检测（多种注入技术）
+- [ ] 实现XSS检测（反射型、存储型、DOM型）
+- [ ] 实现敏感文件扫描
+- [ ] 添加代理支持
+- [ ] 添加报告生成功能
+- [ ] 添加多线程/并发支持
+- [ ] 优化用户体验和输出格式
+
+## 贡献
+
+欢迎提交Issue和Pull Request！
+
+## 许可证
+
+MIT License
+
