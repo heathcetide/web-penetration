@@ -14,6 +14,27 @@
             color: #00ff00;
             overflow: hidden;
         }
+        
+        /* 黑客风格滚动条 */
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #00ff00;
+            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.2);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00ff00, #00ffff);
+            border: 1px solid #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #00ffff, #00ff00);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 1);
+        }
+        
         .glow-green { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00; }
         .glow-cyan { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff; }
         .glow-yellow { text-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00; }
@@ -49,6 +70,81 @@
             background: rgba(0, 0, 0, 0.7);
             border: 1px solid #00ff00;
             box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        /* 弹窗样式 */
+        .hacker-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .hacker-modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: #000;
+            border: 3px solid #00ff00;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.8), inset 0 0 30px rgba(0, 255, 0, 0.2);
+            padding: 30px;
+            max-width: 600px;
+            animation: modal-pulse 2s infinite;
+        }
+        @keyframes modal-pulse {
+            0%, 100% { border-color: #00ff00; box-shadow: 0 0 30px rgba(0, 255, 0, 0.8); }
+            50% { border-color: #00ffff; box-shadow: 0 0 40px rgba(0, 255, 255, 1); }
+        }
+        
+        /* 矩阵雨效果 */
+        #matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        /* 黑客终端效果 */
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid #00ff00;
+            white-space: nowrap;
+            animation: typewriter 3s steps(40) 1s 1 normal both;
+        }
+        
+        /* 结果逐条显示动画 */
+        .result-item {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.5s forwards;
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 危险警告闪烁 */
+        @keyframes danger-pulse {
+            0%, 100% { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+            50% { color: #ffff00; text-shadow: 0 0 15px #ffff00; }
+        }
+        .danger-pulse {
+            animation: danger-pulse 1s infinite;
         }
     </style>
 </head>
@@ -185,6 +281,15 @@
                     </div>
                 </div>
             </main>
+        </div>
+        
+        <!-- 黑客弹窗 -->
+        <div class="hacker-modal" id="hacker-modal">
+            <div class="modal-content">
+                <div class="text-2xl mb-4 glow-red danger-pulse" id="modal-title">⚠️ 严重警告</div>
+                <div class="text-lg mb-4" id="modal-message">检测到安全漏洞！</div>
+                <button onclick="closeModal()" class="w-full py-2 px-4 glow-green hover:glow-cyan">确认</button>
+            </div>
         </div>
     </div>
     <script src="./app.js"></script>
